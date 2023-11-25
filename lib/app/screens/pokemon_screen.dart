@@ -145,7 +145,7 @@ class _PokemonScreenState extends State<PokemonScreen> {
                       );
                     },
                     child: isLoading
-                        ? CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             color: Colors.white,
                           )
                         : const Text(

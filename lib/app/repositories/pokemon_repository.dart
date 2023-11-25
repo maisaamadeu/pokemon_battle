@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:http/http.dart' as http;
 import 'package:pokemon_battle/app/models/pokemon_model.dart';
-import 'package:pokemon_battle/app/models/stat_model.dart';
 
 class PokemonRepository {
   Future<PokemonModel> getRandomPokemon(String url) async {

@@ -41,7 +41,7 @@ class _BattleScreenState extends State<BattleScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,9 +66,9 @@ class _BattleScreenState extends State<BattleScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
+                const Text(
                   'VS',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 48,
                     color: Colors.red,
                     fontWeight: FontWeight.bold,
