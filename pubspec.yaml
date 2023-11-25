@@ -38,6 +38,7 @@ dependencies:
   http:
   mobx:
   flutter_mobx:
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
