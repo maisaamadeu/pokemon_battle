@@ -26,7 +26,8 @@ class TypeButton extends StatelessWidget {
               await PokemonRepository().getRandomPokemon(typeModel.url);
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => PokemonScreen(pokemonModel: pokemonModel),
+              builder: (_) => PokemonScreen(
+                  pokemonModel: pokemonModel, typeUrl: typeModel.url),
             ),
           );
         },
