@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_battle/app/models/pokemon_model.dart';
 import 'package:pokemon_battle/app/repositories/pokemon_repository.dart';
@@ -43,10 +44,12 @@ class _PokemonScreenState extends State<PokemonScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Image.network(
-                  widget.pokemonModel.imageUrl,
-                  fit: BoxFit.cover,
+                CachedNetworkImage(
+                  imageUrl: widget.pokemonModel.imageUrl,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                   width: 200,
+                  height: 200,
                 ),
                 Text(
                   '${widget.pokemonModel.name.toUpperCase()} - #${widget.pokemonModel.id}',
@@ -54,6 +57,7 @@ class _PokemonScreenState extends State<PokemonScreen> {
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),
                 Row(
