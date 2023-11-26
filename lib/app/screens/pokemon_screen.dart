@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:pokemon_battle/app/models/pokemon_model.dart';
 import 'package:pokemon_battle/app/repositories/pokemon_repository.dart';
 import 'package:pokemon_battle/app/screens/battle_screen.dart';
+import 'package:pokemon_battle/app/widgets/custom_elevated_button.dart';
 
 class PokemonScreen extends StatefulWidget {
   const PokemonScreen(
@@ -114,48 +117,38 @@ class _PokemonScreenState extends State<PokemonScreen> {
                   shrinkWrap: true,
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                CustomElevatedButton(
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    PokemonModel opponentPokemon = await PokemonRepository()
+                        .getRandomPokemon(widget.typeUrl);
+
+                    setState(() {
+                      isLoading = false;
+                    });
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => BattleScreen(
+                          userPokemon: widget.pokemonModel,
+                          opponentPokemon: opponentPokemon,
+                        ),
                       ),
-                    ),
-                    onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      PokemonModel opponentPokemon = await PokemonRepository()
-                          .getRandomPokemon(widget.typeUrl);
-
-                      setState(() {
-                        isLoading = false;
-                      });
-
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => BattleScreen(
-                            userPokemon: widget.pokemonModel,
-                            opponentPokemon: opponentPokemon,
+                    );
+                  },
+                  buttonWidget: isLoading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : const Text(
+                          'BATTLE',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
                           ),
                         ),
-                      );
-                    },
-                    child: isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text(
-                            'BATTLE',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                            ),
-                          ),
-                  ),
                 ),
                 const SizedBox(height: 20),
               ],

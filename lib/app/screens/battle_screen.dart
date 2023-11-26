@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:pokemon_battle/app/models/pokemon_model.dart';
+import 'package:pokemon_battle/app/widgets/custom_elevated_button.dart';
 
 class BattleScreen extends StatefulWidget {
   const BattleScreen(
@@ -36,6 +38,36 @@ class _BattleScreenState extends State<BattleScreen> {
     }
   }
 
+  Widget buildPokemon(
+      {required String imageUrl,
+      required String name,
+      required int id,
+      required int stats}) {
+    return Column(
+      children: [
+        Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          width: 150,
+        ),
+        Text(
+          '${name.toUpperCase()} - #$id',
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          'TOTAL STATS: $stats',
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,26 +78,13 @@ class _BattleScreenState extends State<BattleScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.network(
-                  widget.userPokemon.imageUrl,
-                  fit: BoxFit.cover,
-                  width: 150,
-                ),
-                Text(
-                  '${widget.userPokemon.name.toUpperCase()} - #${widget.userPokemon.id}',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'TOTAL STATS: $userPokemonStatsTotal',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 const SizedBox(height: 20),
+                buildPokemon(
+                  imageUrl: widget.userPokemon.imageUrl,
+                  name: widget.userPokemon.name,
+                  id: widget.userPokemon.id,
+                  stats: userPokemonStatsTotal,
+                ),
                 const Text(
                   'VS',
                   style: TextStyle(
@@ -75,55 +94,46 @@ class _BattleScreenState extends State<BattleScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Image.network(
-                  widget.opponentPokemon.imageUrl,
-                  fit: BoxFit.cover,
-                  width: 150,
-                ),
-                Text(
-                  '${widget.opponentPokemon.name.toUpperCase()} - #${widget.opponentPokemon.id}',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'TOTAL STATS: $opponentPokemonStatsTotal',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                buildPokemon(
+                  imageUrl: widget.opponentPokemon.imageUrl,
+                  name: widget.opponentPokemon.name,
+                  id: widget.opponentPokemon.id,
+                  stats: opponentPokemonStatsTotal,
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'WIN: ${pokemonWinner.name.toUpperCase()}',
+                  "WINNER: ${pokemonWinner.name.toUpperCase()}",
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
+                    color: Colors.amber,
                   ),
-                ),
+                )
+                    .animate(
+                      onPlay: (controller) => controller.repeat(),
+                    )
+                    .shimmer(
+                      duration: 1000.ms,
+                    )
+                    .scaleXY(
+                      begin: 1.5,
+                      end: 0.8,
+                      curve: Curves.easeInOut,
+                      duration: 1000.ms,
+                    )
+                    .then()
+                    .scaleXY(
+                      begin: 0.8,
+                      end: 1.5,
+                      curve: Curves.easeInOut,
+                      duration: 1000.ms,
+                    ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurple,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'RETURN',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                CustomElevatedButton(
+                  buttonText: 'RETURN',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             ),

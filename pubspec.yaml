@@ -39,6 +39,7 @@ dependencies:
   mobx:
   flutter_mobx:
   equatable: ^2.0.5
+  flutter_animate: ^4.3.0
 
 dev_dependencies:
   flutter_test:

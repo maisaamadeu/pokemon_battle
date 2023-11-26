@@ -19,7 +19,7 @@ class PokemonModel extends Equatable {
     name = json['name'];
     stats = List.from(json['stats']).map((e) => StatModel.fromJson(e)).toList();
     imageUrl =
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${json['id']}.png';
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${json['id']}.png';
   }
 
   Map<String, dynamic> toJson() {
